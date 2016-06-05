@@ -22,6 +22,11 @@ public class Matchers {
             @Override
             public boolean matchesSafely(final RecyclerView recyclerView) {
                 RecyclerView.ViewHolder viewHolder = recyclerView.findViewHolderForAdapterPosition(position);
+
+                if(viewHolder == null) {
+                    return false;
+                }
+
                 return itemMatcher.matches(viewHolder.itemView);
             }
         };
