@@ -9,7 +9,9 @@ android {
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+
     buildTypes {
         debug {
             minifyEnabled false
@@ -23,7 +25,29 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:23.4.0'
-    compile 'com.android.support:support-v4:23.4.0'
+    final SUPPORT_LIBRARY_VERSION = '23.4.0'
+    final ESPRESSO_VERSION = '2.2.1'
+    final JUNIT_VERSION = '4.12'
+    final RUNNER_VERSION = '0.4'
+
+    compile "com.android.support:support-v4:$SUPPORT_LIBRARY_VERSION"
+    compile "com.android.support:appcompat-v7:$SUPPORT_LIBRARY_VERSION"
+    compile "com.android.support:design:$SUPPORT_LIBRARY_VERSION"
+    compile "com.android.support:recyclerview-v7:$SUPPORT_LIBRARY_VERSION"
+    compile "com.android.support:support-annotations:$SUPPORT_LIBRARY_VERSION"
+
+    testCompile "junit:junit:$JUNIT_VERSION"
+
+    androidTestCompile "junit:junit:$JUNIT_VERSION"
+    androidTestCompile "com.android.support:support-annotations:$SUPPORT_LIBRARY_VERSION"
+    androidTestCompile("com.android.support.test.espresso:espresso-contrib:$ESPRESSO_VERSION") {
+        exclude group: 'com.android.support', module: 'appcompat'
+        exclude group: 'com.android.support', module: 'support-v4'
+        exclude group: 'com.android.support', module: 'recyclerview-v7'
+    }
+    androidTestCompile "com.android.support.test.espresso:espresso-core:$ESPRESSO_VERSION"
+    androidTestCompile "com.android.support.test.espresso:espresso-intents:$ESPRESSO_VERSION"
+    androidTestCompile "com.android.support.test:runner:$RUNNER_VERSION"
+    androidTestCompile "com.android.support.test:rules:$RUNNER_VERSION"
 }
+
