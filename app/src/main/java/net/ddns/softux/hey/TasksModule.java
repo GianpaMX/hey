@@ -4,6 +4,8 @@ import android.app.Application;
 import android.content.Context;
 
 import com.firebase.client.Firebase;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import javax.inject.Singleton;
 
@@ -30,11 +32,18 @@ public class TasksModule {
 
     @Provides
     @Singleton
-    public Firebase provideTaskDatabase(@ApplicationContext Context context) {
+    public Firebase provideTasksFirebase(@ApplicationContext Context context) {
         Firebase.setAndroidContext(context);
         Firebase firebase = new Firebase(Config.FIREBASE_URL);
         return firebase.child("/tasks");
     }
+
+    @Provides
+    @Singleton
+    public DatabaseReference provideTasksDabaseReference(Firebase taskFirebase) {
+        return FirebaseDatabase.getInstance().getReference().child("tasks");
+    }
+
 
     @Provides
     @Singleton

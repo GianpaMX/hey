@@ -13,4 +13,5 @@ import dagger.Component;
 public interface HeyComponent {
     TasksApi taskApi();
     void inject(HeyActivity activity);
+    void inject(TaskListFragment taskListFragment);
 }

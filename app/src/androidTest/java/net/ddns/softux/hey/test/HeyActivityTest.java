@@ -8,7 +8,6 @@ import com.firebase.client.Firebase;
 
 import net.ddns.softux.hey.HeyActivity;
 import net.ddns.softux.hey.R;
-import net.ddns.softux.hey.TasksApi;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -45,9 +44,6 @@ public class HeyActivityTest {
 
     @Mock
     Firebase firebase;
-
-    @Mock
-    TasksApi tasksApi;
 
     @Test
     public void testAdTask() {
