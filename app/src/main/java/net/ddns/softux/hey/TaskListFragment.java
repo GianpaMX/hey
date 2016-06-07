@@ -11,20 +11,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.Query;
-
 import javax.inject.Inject;
 
 
 public class TaskListFragment extends Fragment {
 
     @Inject
-    public DatabaseReference tasksDatabase;
+    public TasksRecylerAdapter recyclerAdapter;
 
     private RecyclerView taskList;
-    private FirebaseRecyclerAdapter<Task, TaskViewHolder> recyclerAdapter;
 
     public TaskListFragment() {
         // Required empty public constructor
@@ -68,13 +63,7 @@ public class TaskListFragment extends Fragment {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         taskList.setLayoutManager(layoutManager);
 
-        Query query = tasksDatabase.limitToFirst(100);
-        recyclerAdapter = new FirebaseRecyclerAdapter<Task, TaskViewHolder>(Task.class, R.layout.task_item_view, TaskViewHolder.class, tasksDatabase) {
-            @Override
-            protected void populateViewHolder(TaskViewHolder viewHolder, Task task, int position) {
-                viewHolder.bind(task);
-            }
-        };
         taskList.setAdapter(recyclerAdapter);
     }
+
 }

@@ -20,6 +20,11 @@ public class Task extends BaseObservable implements Parcelable {
     public Task() {
     }
 
+    public Task(String title, String description) {
+        this.title = title;
+        this.description = description;
+    }
+
     public String getKey() {
         return key;
     }

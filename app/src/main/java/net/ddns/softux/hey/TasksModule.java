@@ -34,6 +34,7 @@ public class TasksModule {
     @Singleton
     public Firebase provideTasksFirebase(@ApplicationContext Context context) {
         Firebase.setAndroidContext(context);
+        Firebase.getDefaultConfig().setPersistenceEnabled(true);
         Firebase firebase = new Firebase(Config.FIREBASE_URL);
         return firebase.child("/tasks");
     }
@@ -44,6 +45,11 @@ public class TasksModule {
         return FirebaseDatabase.getInstance().getReference().child("tasks");
     }
 
+    @Provides
+    @Singleton
+    public TasksRecylerAdapter provideTasksRecylerAdapter(DatabaseReference databaseReference) {
+        return new TasksRecylerAdapter(databaseReference);
+    }
 
     @Provides
     @Singleton
