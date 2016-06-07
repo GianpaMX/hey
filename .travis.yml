@@ -3,6 +3,7 @@ jdk: oraclejdk8
 env:
   global:
     - ANDROID_API_LEVEL=23
+    - EMULATOR_API_LEVEL=21
     - ANDROID_BUILD_TOOLS_VERSION=23.0.3
     - ANDROID_ABI=google_apis/armeabi-v7a
 android:
@@ -11,8 +12,10 @@ android:
     - tools
     - build-tools-$ANDROID_BUILD_TOOLS_VERSION
     - android-$ANDROID_API_LEVEL
+    - android-$EMULATOR_API_LEVEL
     # For Google APIs
     - addon-google_apis-google-$ANDROID_API_LEVEL
+    - addon-google_apis-google-$EMULATOR_API_LEVEL
     # Google Play Services
     - extra-google-google_play_services
     # Support library
@@ -22,8 +25,9 @@ android:
     - extra-android-m2repository
     # Specify at least one system image
     - sys-img-armeabi-v7a-addon-google_apis-google-$ANDROID_API_LEVEL
+    - sys-img-armeabi-v7a-addon-google_apis-google-$EMULATOR_API_LEVEL
 script:
-  - echo no | android create avd --force -n test -t "Google Inc.:Google APIs:"$ANDROID_API_LEVEL --abi $ANDROID_ABI
+  - echo no | android create avd --force -n test -t "Google Inc.:Google APIs:"$EMULATOR_API_LEVEL --abi $ANDROID_ABI
   - emulator -avd test -no-skin -no-audio -no-window &
   - android-wait-for-emulator
   - adb shell setprop dalvik.vm.dexopt-flags v=n,o=v

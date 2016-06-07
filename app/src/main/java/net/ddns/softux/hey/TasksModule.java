@@ -5,7 +5,6 @@ import android.content.Context;
 
 import com.firebase.client.Firebase;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import javax.inject.Singleton;
 
@@ -29,22 +28,7 @@ public class TasksModule {
     public Context provideContext() {
         return application;
     }
-
-    @Provides
-    @Singleton
-    public Firebase provideTasksFirebase(@ApplicationContext Context context) {
-        Firebase.setAndroidContext(context);
-        Firebase.getDefaultConfig().setPersistenceEnabled(true);
-        Firebase firebase = new Firebase(Config.FIREBASE_URL);
-        return firebase.child("/tasks");
-    }
-
-    @Provides
-    @Singleton
-    public DatabaseReference provideTasksDabaseReference(Firebase taskFirebase) {
-        return FirebaseDatabase.getInstance().getReference().child("tasks");
-    }
-
+    
     @Provides
     @Singleton
     public TasksRecylerAdapter provideTasksRecylerAdapter(DatabaseReference databaseReference) {

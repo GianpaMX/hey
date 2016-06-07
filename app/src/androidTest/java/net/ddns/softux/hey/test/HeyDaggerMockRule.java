@@ -2,6 +2,7 @@ package net.ddns.softux.hey.test;
 
 import android.support.test.InstrumentationRegistry;
 
+import net.ddns.softux.hey.FirebaseModule;
 import net.ddns.softux.hey.HeyApp;
 import net.ddns.softux.hey.HeyComponent;
 import net.ddns.softux.hey.TasksModule;
@@ -14,7 +15,7 @@ import it.cosenonjaviste.daggermock.DaggerMockRule;
 
 public class HeyDaggerMockRule extends DaggerMockRule<HeyComponent> {
     public HeyDaggerMockRule() {
-        super(HeyComponent.class, new TasksModule(getApp()));
+        super(HeyComponent.class, new TasksModule(getApp()), new FirebaseModule());
         set(new ComponentSetter<HeyComponent>() {
             @Override
             public void setComponent(HeyComponent heyComponent) {

@@ -9,7 +9,7 @@ import dagger.Component;
  */
 
 @Singleton
-@Component(modules = TasksModule.class)
+@Component(modules = {TasksModule.class, FirebaseModule.class})
 public interface HeyComponent {
     TasksApi taskApi();
     void inject(HeyActivity activity);
