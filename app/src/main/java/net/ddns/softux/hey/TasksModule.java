@@ -4,7 +4,6 @@ import android.app.Application;
 import android.content.Context;
 
 import com.firebase.client.Firebase;
-import com.google.firebase.database.DatabaseReference;
 
 import javax.inject.Singleton;
 
@@ -27,12 +26,6 @@ public class TasksModule {
     @ApplicationContext
     public Context provideContext() {
         return application;
-    }
-    
-    @Provides
-    @Singleton
-    public TasksRecylerAdapter provideTasksRecylerAdapter(DatabaseReference databaseReference) {
-        return new TasksRecylerAdapter(databaseReference);
     }
 
     @Provides

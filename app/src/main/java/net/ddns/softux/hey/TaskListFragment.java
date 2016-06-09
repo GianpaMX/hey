@@ -10,14 +10,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.firebase.database.DatabaseReference;
+
 import javax.inject.Inject;
 
 
 public class TaskListFragment extends BaseFragment {
 
     @Inject
-    public TasksRecylerAdapter recyclerAdapter;
+    public DatabaseReference databaseReference;
 
+    private TasksRecylerAdapter recyclerAdapter;
     private RecyclerView taskList;
 
     public TaskListFragment() {
@@ -33,12 +36,25 @@ public class TaskListFragment extends BaseFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getHeyComponent().inject(this);
+
+        recyclerAdapter = new TasksRecylerAdapter(databaseReference);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        recyclerAdapter.start();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        recyclerAdapter.stop();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.task_list_fragment, container, false);
-
 
         taskList = (RecyclerView) view.findViewById(R.id.task_list);
         taskList.setHasFixedSize(true);
@@ -60,7 +76,6 @@ public class TaskListFragment extends BaseFragment {
         super.onActivityCreated(savedInstanceState);
 
         taskList.setLayoutManager(getLayoutManager());
-
         taskList.setAdapter(recyclerAdapter);
     }
 
