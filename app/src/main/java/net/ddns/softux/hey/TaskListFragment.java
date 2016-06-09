@@ -4,7 +4,6 @@ package net.ddns.softux.hey;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,7 +13,7 @@ import android.view.ViewGroup;
 import javax.inject.Inject;
 
 
-public class TaskListFragment extends Fragment {
+public class TaskListFragment extends BaseFragment {
 
     @Inject
     public TasksRecylerAdapter recyclerAdapter;
@@ -33,7 +32,7 @@ public class TaskListFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ((BaseActivity) getActivity()).getHeyComponent().inject(this);
+        getHeyComponent().inject(this);
     }
 
     @Override
@@ -60,10 +59,12 @@ public class TaskListFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        taskList.setLayoutManager(layoutManager);
+        taskList.setLayoutManager(getLayoutManager());
 
         taskList.setAdapter(recyclerAdapter);
     }
 
+    public LinearLayoutManager getLayoutManager() {
+        return new LinearLayoutManager(getActivity());
+    }
 }

@@ -1,5 +1,6 @@
 package net.ddns.softux.hey.test;
 
+import android.support.test.InstrumentationRegistry;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.LargeTest;
@@ -8,6 +9,7 @@ import com.firebase.client.Firebase;
 import com.google.firebase.database.DatabaseReference;
 
 import net.ddns.softux.hey.HeyActivity;
+import net.ddns.softux.hey.HeyApp;
 import net.ddns.softux.hey.R;
 import net.ddns.softux.hey.Task;
 
@@ -41,7 +43,7 @@ import static org.mockito.Mockito.when;
 public class HeyActivityTest {
 
     @Rule
-    public HeyDaggerMockRule mockRule = new HeyDaggerMockRule();
+    public HeyDaggerMockRule mockRule = new HeyDaggerMockRule((HeyApp) InstrumentationRegistry.getInstrumentation().getTargetContext().getApplicationContext());
 
     @Rule
     public ActivityTestRule<HeyActivity> activityTestRule = new ActivityTestRule<HeyActivity>(HeyActivity.class, false, false);

@@ -6,9 +6,10 @@ import android.support.v7.app.AppCompatActivity;
  * Created by juan on 5/06/16.
  */
 
-public abstract class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity extends AppCompatActivity implements HeyComponentGetter {
 
-    protected HeyComponent getHeyComponent() {
+    @Override
+    public HeyComponent getHeyComponent() {
         return ((HeyApp)getApplication()).getHeyComponent();
     }
 }
