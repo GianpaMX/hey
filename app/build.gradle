@@ -1,6 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.neenbedankt.android-apt'
-apply plugin: 'jacoco-android'
+apply from: 'jacoco.gradle'
 
 android {
     compileSdkVersion 23
@@ -44,13 +44,6 @@ android {
         }
         androidTest {
             java.srcDir sharedTestDir
-        }
-    }
-    testOptions {
-        unitTests.all {
-            jacoco {
-                includeNoLocationClasses = true
-            }
         }
     }
 }

@@ -1,0 +1,51 @@
+apply plugin: 'jacoco'
+
+android {
+    testOptions {
+        unitTests.all {
+            jacoco {
+                includeNoLocationClasses = true
+            }
+        }
+    }
+}
+
+project.afterEvaluate {
+
+    android.applicationVariants.all { variant ->
+        def name = variant.name
+        def testTaskName = "test${name.capitalize()}UnitTest"
+
+        tasks.create(name: "${testTaskName}Coverage", type: JacocoReport, dependsOn: "$testTaskName") {
+            group = "Reporting"
+            description = "Generate Jacoco coverage reports for the ${name.capitalize()} build."
+
+            classDirectories = fileTree(
+                    dir: "${project.buildDir}/intermediates/classes/${name}",
+                    excludes: ['**/R.class',
+                               '**/R$*.class',
+                               '**/databinding/*.*',
+                               'com/android/databinding/**/*.*',
+                               'android/databinding/**/*.*',
+                               '**/*$ViewInjector*.*',
+                               '**/*$ViewBinder*.*',
+                               '**/BuildConfig.*',
+                               '**/Manifest*.*',
+                               '**/BR.class',
+                               '**/*Module.*', // Modules for Dagger.
+                               '**/*Dagger*.*', // Dagger auto-generated code.
+                               '**/*MembersInjector*.*', // Dagger auto-generated code.
+                               '**/*_Provide*Factory*.*'] // Dagger auto-generated code.
+            )
+
+            sourceDirectories = files(['src/main/java'].plus(android.sourceSets[name].java.srcDirs))
+            executionData = files(["${project.buildDir}/jacoco/${testTaskName}.exec",
+                                   "${buildDir}/outputs/code-coverage/connected/coverage.ec"])
+
+            reports {
+                xml.enabled = true
+                html.enabled = true
+            }
+        }
+    }
+}
