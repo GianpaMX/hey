@@ -79,6 +79,23 @@ public class TestTaskListFragment {
         Assert.assertEquals(1, adapter.getItemCount());
     }
 
+    @Test
+    public void testStartStopAdapter() {
+        ArgumentCaptor<ChildEventListener> argumentCaptor = ArgumentCaptor.forClass(ChildEventListener.class);
+        verify(databaseReference).addChildEventListener(argumentCaptor.capture());
+
+        ChildEventListener startChildEventListener = argumentCaptor.getValue();
+
+        fragment.onStop();
+
+        ArgumentCaptor<ChildEventListener> stopArgumentCaptor = ArgumentCaptor.forClass(ChildEventListener.class);
+        verify(databaseReference).removeEventListener(stopArgumentCaptor.capture());
+
+        ChildEventListener stopChildEventListener = stopArgumentCaptor.getValue();
+
+        Assert.assertEquals(stopChildEventListener, startChildEventListener);
+    }
+
     public static class TestableTaskListFragment extends TaskListFragment {
         private LinearLayoutManager mockLayoutManager;
 
