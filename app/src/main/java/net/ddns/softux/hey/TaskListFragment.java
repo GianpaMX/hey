@@ -3,7 +3,6 @@ package net.ddns.softux.hey;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -58,16 +57,7 @@ public class TaskListFragment extends BaseFragment {
 
         taskList = (RecyclerView) view.findViewById(R.id.task_list);
         taskList.setHasFixedSize(true);
-
-        FloatingActionButton addButton = (FloatingActionButton) view.findViewById(R.id.add);
-        addButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                TaskFragment taskFragment = TaskFragment.newInstance();
-                taskFragment.show(getFragmentManager(), "dialog");
-            }
-        });
-
+        
         return view;
     }
 
