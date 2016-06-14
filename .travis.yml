@@ -41,7 +41,7 @@ script:
     - adb devices
     - android-wait-for-emulator
     - adb shell input keyevent 82
-    - ./gradlew clean :app:connectedDebugAndroidTest :app:testDebugUnitTestCoverage --stacktrace
+    - ./gradlew clean :app:createDebugCoverageReport :app:testDebugUnitTestCoverage --stacktrace
 
 after_failure:
     - adb logcat -e
