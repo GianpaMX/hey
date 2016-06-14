@@ -39,7 +39,7 @@ project.afterEvaluate {
             )
 
             sourceDirectories = files(['src/main/java'].plus(android.sourceSets[name].java.srcDirs))
-            executionData = files(["${project.buildDir}/jacoco/${testTaskName}.ec",
+            executionData = files(["${project.buildDir}/jacoco/${testTaskName}.exec",
                                    "${buildDir}/outputs/code-coverage/connected/coverage.ec"])
 
             reports {
