@@ -28,9 +28,7 @@ public class TaskFragment extends DialogFragment {
     private Task task;
     private NoticeDialogListener listener;
 
-    public interface NoticeDialogListener<T extends DialogFragment> {
-        void onDialogPositiveClick(T dialog);
-        void onDialogNegativeClick(T dialog);
+    public TaskFragment() {
     }
 
     public static TaskFragment newInstance() {
@@ -38,7 +36,13 @@ public class TaskFragment extends DialogFragment {
         return fragment;
     }
 
-    public TaskFragment() {
+    public static TaskFragment newInstance(Task task) {
+        Bundle args = new Bundle();
+        args.putParcelable(TASK, task);
+
+        TaskFragment fragment = new TaskFragment();
+        fragment.setArguments(args);
+        return fragment;
     }
 
     public Task getTask() {
@@ -49,7 +53,7 @@ public class TaskFragment extends DialogFragment {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
 
-        if(activity instanceof NoticeDialogListener) {
+        if (activity instanceof NoticeDialogListener) {
             listener = (NoticeDialogListener) activity;
         }
     }
@@ -59,7 +63,7 @@ public class TaskFragment extends DialogFragment {
         super.onCreate(savedInstanceState);
 
         if (savedInstanceState == null) {
-            task = new Task();
+            task = getArguments() != null && getArguments().containsKey(TASK) ? (Task) getArguments().getParcelable(TASK) : new Task();
         } else {
             task = savedInstanceState.getParcelable(TASK);
         }
@@ -99,7 +103,7 @@ public class TaskFragment extends DialogFragment {
                 .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        if(listener != null) {
+                        if (listener != null) {
                             listener.onDialogPositiveClick(TaskFragment.this);
                         }
                     }
@@ -107,11 +111,17 @@ public class TaskFragment extends DialogFragment {
                 .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        if(listener != null) {
+                        if (listener != null) {
                             listener.onDialogNegativeClick(TaskFragment.this);
                         }
                     }
                 })
                 .create();
+    }
+
+    public interface NoticeDialogListener<T extends DialogFragment> {
+        void onDialogPositiveClick(T dialog);
+
+        void onDialogNegativeClick(T dialog);
     }
 }

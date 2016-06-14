@@ -5,6 +5,8 @@ import android.databinding.Bindable;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.firebase.database.DataSnapshot;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,6 +15,17 @@ import java.util.Map;
  */
 
 public class Task extends BaseObservable implements Parcelable {
+    public static final Parcelable.Creator<Task> CREATOR = new Parcelable.Creator<Task>() {
+        @Override
+        public Task createFromParcel(Parcel source) {
+            return new Task(source);
+        }
+
+        @Override
+        public Task[] newArray(int size) {
+            return new Task[size];
+        }
+    };
     private String key;
     private String title;
     private String description;
@@ -23,6 +36,18 @@ public class Task extends BaseObservable implements Parcelable {
     public Task(String title, String description) {
         this.title = title;
         this.description = description;
+    }
+
+    protected Task(Parcel in) {
+        this.key = in.readString();
+        this.title = in.readString();
+        this.description = in.readString();
+    }
+
+    public static Task from(DataSnapshot dataSnapshot) {
+        Task task = dataSnapshot.getValue(Task.class);
+        task.setKey(dataSnapshot.getKey());
+        return task;
     }
 
     public String getKey() {
@@ -65,28 +90,10 @@ public class Task extends BaseObservable implements Parcelable {
         dest.writeString(this.description);
     }
 
-    protected Task(Parcel in) {
-        this.key = in.readString();
-        this.title = in.readString();
-        this.description = in.readString();
-    }
-
-    public static final Parcelable.Creator<Task> CREATOR = new Parcelable.Creator<Task>() {
-        @Override
-        public Task createFromParcel(Parcel source) {
-            return new Task(source);
-        }
-
-        @Override
-        public Task[] newArray(int size) {
-            return new Task[size];
-        }
-    };
-
     public Map<String, Object> toMap() {
         HashMap<String, Object> map = new HashMap<>();
         map.put("title", title);
-        map.put("description",description);
+        map.put("description", description);
         return map;
     }
 }

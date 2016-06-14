@@ -14,7 +14,7 @@ import com.google.firebase.database.DatabaseReference;
 import javax.inject.Inject;
 
 
-public class TaskListFragment extends BaseFragment {
+public class TaskListFragment extends BaseFragment implements TaskViewHolder.TaskListActionsListener {
 
     @Inject
     public DatabaseReference databaseReference;
@@ -37,6 +37,7 @@ public class TaskListFragment extends BaseFragment {
         getHeyComponent().inject(this);
 
         recyclerAdapter = new TasksRecylerAdapter(databaseReference);
+        recyclerAdapter.setTaskListActionsListener(this);
     }
 
     @Override
@@ -71,5 +72,11 @@ public class TaskListFragment extends BaseFragment {
 
     public LinearLayoutManager getLayoutManager() {
         return new LinearLayoutManager(getActivity());
+    }
+
+    @Override
+    public void onLongClick(Task task) {
+        TaskFragment taskFragment = TaskFragment.newInstance(task);
+        taskFragment.show(getFragmentManager(), "dialog");
     }
 }

@@ -84,6 +84,7 @@ public class HeyActivityTest {
 
     @Test
     public void taskModifyTask() {
+        when(firebase.push()).thenThrow(new RuntimeException("Push should never been called"));
         activityTestRule.launchActivity(null);
 
         Task task = new Task("Old Title", null);
@@ -100,18 +101,17 @@ public class HeyActivityTest {
 
         Task modifiedTask = new Task("Modified Task Title", "Modified description of the task");
 
-        Map<String, Object> childUpdates = new HashMap<>();
-        childUpdates.put("/1", modifiedTask.toMap());
-
         onView(withId(R.id.task_list)).perform(RecyclerViewActions.actionOnItemAtPosition(0, longClick()));
         onView(withId(R.id.title)).perform(replaceText(modifiedTask.getTitle()), pressImeActionButton());
         onView(withId(R.id.description)).perform(replaceText(modifiedTask.getDescription()), closeSoftKeyboard());
         onView(withText(android.R.string.ok)).perform(click());
 
-        ArgumentCaptor<Task> setValueArgumentCaptor = ArgumentCaptor.forClass(Task.class);
-        verify(databaseReference).setValue(setValueArgumentCaptor.capture());
+        ArgumentCaptor<Map> updateChildrenArgumentCaptor = ArgumentCaptor.forClass(Map.class);
+        verify(firebase).updateChildren(updateChildrenArgumentCaptor.capture());
 
-        Assert.assertEquals(modifiedTask.getTitle(), setValueArgumentCaptor.getValue().getTitle());
-        Assert.assertEquals(modifiedTask.getDescription(), setValueArgumentCaptor.getValue().getDescription());
+        Map<String, Object> childUpdates = new HashMap<>();
+        childUpdates.put("/1", modifiedTask.toMap());
+
+        Assert.assertEquals(childUpdates, updateChildrenArgumentCaptor.getValue());
     }
 }

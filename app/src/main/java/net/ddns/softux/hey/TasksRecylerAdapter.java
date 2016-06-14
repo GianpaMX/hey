@@ -24,6 +24,7 @@ public class TasksRecylerAdapter extends RecyclerView.Adapter<TaskViewHolder> im
     protected Query query;
     private ArrayList<DataSnapshot> snapshots = new ArrayList<DataSnapshot>();
     private boolean isStarted = false;
+    private TaskViewHolder.TaskListActionsListener taskListActionsListener;
     private Comparator<Object> snapshotKeyComparator = new Comparator<Object>() {
         @Override
         public int compare(Object lhs, Object rhs) {
@@ -55,7 +56,7 @@ public class TasksRecylerAdapter extends RecyclerView.Adapter<TaskViewHolder> im
 
     @Override
     public TaskViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new TaskViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.task_item_view, parent, false));
+        return new TaskViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.task_item_view, parent, false), taskListActionsListener);
     }
 
     @Override
@@ -64,8 +65,9 @@ public class TasksRecylerAdapter extends RecyclerView.Adapter<TaskViewHolder> im
     }
 
     public Task getItem(int position) {
-        return snapshots.get(position).getValue(Task.class);
+        return Task.from(snapshots.get(position));
     }
+
 
     @Override
     public int getItemCount() {
@@ -129,4 +131,9 @@ public class TasksRecylerAdapter extends RecyclerView.Adapter<TaskViewHolder> im
 
         notifyDataSetChanged();
     }
+
+    public void setTaskListActionsListener(TaskViewHolder.TaskListActionsListener taskListActionsListener) {
+        this.taskListActionsListener = taskListActionsListener;
+    }
+
 }
